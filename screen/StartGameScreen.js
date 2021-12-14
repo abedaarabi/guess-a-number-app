@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "80%",
     justifyContent: "space-between",
+    marginVertical: 10,
   },
   button: {
     width: "40%",
