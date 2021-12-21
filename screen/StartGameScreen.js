@@ -123,15 +123,15 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    width: "80%",
-    justifyContent: "space-between",
+    width: "90%",
+    justifyContent: "space-around",
     marginVertical: 10,
   },
   button: {
     width: "40%",
   },
   input: {
-    width: "40%",
+    width: "30%",
     textAlign: "center",
   },
   summaryContainer: {
