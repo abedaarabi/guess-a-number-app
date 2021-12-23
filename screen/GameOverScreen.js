@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Image, StyleSheet, Button, Text } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  Button,
+  Text,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import { BodyText } from "../components/BodyText";
 import { Card } from "../components/Card";
 import Color from "../constants/Color";
@@ -7,29 +15,31 @@ import Color from "../constants/Color";
 export const GameOverScreen = (props) => {
   const { uesrNumer, guessRound, restGame } = props;
   return (
-    <View style={styles.secreen}>
-      <BodyText style={styles.title}>The Game Is Over..!</BodyText>
-      <View style={styles.imageContainer}>
-        <Image
-          //web
-          source={{
-            uri: "https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/HGATaVJubj6casdeu/videoblocks-businesswoman-with-success-flag-character-animated-4k-video-animation_byluppjjw_thumbnail-1080_01.png",
-          }}
-          //loacl
-          /* <Image source={require("../assets/success.png")}  */
-          style={styles.image}
-        />
-      </View>
-      <View style={styles.resultContainer}>
-        <BodyText style={styles.textBody}>
-          Number of Round :
-          <Text style={styles.textHighlight}> {guessRound}</Text> User Numner:
-          <Text style={styles.textHighlight}> {uesrNumer}</Text>
-        </BodyText>
-      </View>
+    <ScrollView>
+      <View style={styles.secreen}>
+        <BodyText style={styles.title}>The Game Is Over..!</BodyText>
+        <View style={styles.imageContainer}>
+          <Image
+            //web
+            source={{
+              uri: "https://dm0qx8t0i9gc9.cloudfront.net/thumbnails/video/HGATaVJubj6casdeu/videoblocks-businesswoman-with-success-flag-character-animated-4k-video-animation_byluppjjw_thumbnail-1080_01.png",
+            }}
+            //loacl
+            /* <Image source={require("../assets/success.png")}  */
+            style={styles.image}
+          />
+        </View>
+        <View style={styles.resultContainer}>
+          <BodyText style={styles.textBody}>
+            Number of Round :
+            <Text style={styles.textHighlight}> {guessRound}</Text> User Numner:
+            <Text style={styles.textHighlight}> {uesrNumer}</Text>
+          </BodyText>
+        </View>
 
-      <Button onPress={restGame} title="NEW GAME" color={Color.accent} />
-    </View>
+        <Button onPress={restGame} title="NEW GAME" color={Color.accent} />
+      </View>
+    </ScrollView>
   );
 };
 
@@ -49,11 +59,11 @@ const styles = StyleSheet.create({
     fontFamily: "OpenSans-Bold",
   },
   imageContainer: {
-    width: 300,
-    height: 300,
-    borderRadius: 150,
+    width: Dimensions.get("window").width * 0.7,
+    height: Dimensions.get("window").width * 0.7,
+    borderRadius: (Dimensions.get("window").width * 0.7) / 2,
     borderWidth: 3,
-    marginVertical: 30,
+    marginVertical: Dimensions.get("window").height / 30,
     overflow: "hidden",
     borderColor: Color.primary,
   },
@@ -67,9 +77,10 @@ const styles = StyleSheet.create({
   },
   resultContainer: {
     width: "80%",
-    marginVertical: 20,
+    marginVertical: Dimensions.get("window").height / 60,
   },
   textBody: {
     textAlign: "center",
+    fontSize: Dimensions.get("window").height < 600 ? 16 : 20,
   },
 });

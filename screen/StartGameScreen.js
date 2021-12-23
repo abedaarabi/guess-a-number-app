@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import {
   Text,
@@ -8,6 +8,9 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import { Card } from "../components/Card";
 import { Input } from "../components/Input";
@@ -19,6 +22,9 @@ export const StartGameScreen = (props) => {
   const [inputTextValue, setInputTextValue] = React.useState("");
   const [confirmed, setConfirmed] = React.useState(false);
   const [selectedNumber, setSelectedNumber] = React.useState();
+  const [buttonWidth, setButtonWidth] = React.useState(
+    Dimensions.get("window").width / 4
+  );
 
   const numberInputHander = (inputText) => {
     setInputTextValue(inputText.replace(/[^0-9]/g, ""));
@@ -37,12 +43,23 @@ export const StartGameScreen = (props) => {
       ]);
       return;
     }
+
     setConfirmed(true);
     setSelectedNumber(chosenNumber);
     setInputTextValue("");
     Keyboard.dismiss();
   };
 
+  React.useEffect(() => {
+    const updateWidth = () => {
+      setButtonWidth(Dimensions.get("window").width / 4);
+    };
+    Dimensions.addEventListener("change", updateWidth);
+
+    return () => {
+      Dimensions.removeEventListener("change", updateWidth);
+    };
+  });
   let confirmedNumber;
 
   if (confirmed) {
@@ -60,45 +77,50 @@ export const StartGameScreen = (props) => {
       </Card>
     );
   }
+
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-    >
-      <View style={styles.screen}>
-        <Text style={styles.title}>Start a New Baher!</Text>
-        <Card style={styles.inputContanier}>
-          <Text style={styles.textSelectNumber}>Select a Number</Text>
-          <Input
-            style={styles.input}
-            keyboardType="numeric"
-            maxLength={2}
-            autoCorrect={false}
-            autoCapitalize="none"
-            onChangeText={numberInputHander}
-            value={inputTextValue}
-          />
-          <View style={styles.buttonContainer}>
-            <View style={styles.button}>
-              <Button
-                title="Rest"
-                onPress={restButtonHandler}
-                color={Color.accent}
+    <ScrollView>
+      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            Keyboard.dismiss();
+          }}
+        >
+          <View style={styles.screen}>
+            <Text style={styles.title}>Start a New Baher!</Text>
+            <Card style={styles.inputContanier}>
+              <Text style={styles.textSelectNumber}>Select a Number</Text>
+              <Input
+                style={styles.input}
+                keyboardType="numeric"
+                maxLength={2}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={numberInputHander}
+                value={inputTextValue}
               />
-            </View>
-            <View style={styles.button}>
-              <Button
-                title="Confirm"
-                onPress={confirmedButtonHandler}
-                color={Color.primary}
-              />
-            </View>
+              <View style={styles.buttonContainer}>
+                <View style={{ width: buttonWidth }}>
+                  <Button
+                    title="Rest"
+                    onPress={restButtonHandler}
+                    color={Color.accent}
+                  />
+                </View>
+                <View style={{ width: buttonWidth }}>
+                  <Button
+                    title="Confirm"
+                    onPress={confirmedButtonHandler}
+                    color={Color.primary}
+                  />
+                </View>
+              </View>
+            </Card>
+            {confirmedNumber}
           </View>
-        </Card>
-        {confirmedNumber}
-      </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
@@ -117,18 +139,20 @@ const styles = StyleSheet.create({
   textSelectNumber: { color: "#ffff" },
   inputContanier: {
     backgroundColor: "#45ADA8",
-    width: 300,
-    maxWidth: "80%",
+    width: "80%",
+    minWidth: 300,
     alignItems: "center",
   },
   buttonContainer: {
     flexDirection: "row",
-    width: "90%",
+    maxWidth: "90%",
+    width: "80%",
+    minWidth: 300,
     justifyContent: "space-around",
     marginVertical: 10,
   },
   button: {
-    width: "40%",
+    width: Dimensions.get("window").width / 3.5,
   },
   input: {
     width: "30%",

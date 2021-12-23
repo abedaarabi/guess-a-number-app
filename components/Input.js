@@ -2,7 +2,17 @@ import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
 export const Input = (props) => {
-  return <TextInput {...props} style={{ ...style.input, ...props.style }} />;
+  const keyBoardRef = React.useRef(null);
+  React.useEffect(() => {
+    keyBoardRef.current.focus();
+  }, []);
+  return (
+    <TextInput
+      ref={keyBoardRef}
+      {...props}
+      style={{ ...style.input, ...props.style }}
+    />
+  );
 };
 
 const style = StyleSheet.create({
