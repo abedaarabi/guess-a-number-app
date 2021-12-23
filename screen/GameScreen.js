@@ -90,16 +90,16 @@ export const GameScreen = (props) => {
     setCurrentGuess(nextNum);
     setRound((currentRound) => [nextNum, ...currentRound]);
   };
-  let listContinterStyle = styles.listContainter;
+  let listContainerStyle = styles.listContainer;
   if (availavleDeviceWidth < 350) {
-    listContinterStyle = styles.listContainterBig;
+    listContainerStyle = styles.listContainerBig;
   }
 
   if (availavleDeviceHeight < 500) {
     return (
       <View style={styles.screen}>
         <Text>Opponent's Guess!</Text>
-        <View style={styles.control}>
+        <View style={styles.controls}>
           <MainButton
             onPress={() => {
               nextGuessNumber("lower");
@@ -117,7 +117,7 @@ export const GameScreen = (props) => {
             <Ionicons name="md-add" color={"white"} size={24} />
           </MainButton>
         </View>
-        <View style={styles.listContainter}>
+        <View style={listContainerStyle}>
           <ScrollView contentContainerStyle={styles.list}>
             {round.map((num, idx) => renderdList(num, round.length - idx))}
           </ScrollView>
@@ -147,7 +147,7 @@ export const GameScreen = (props) => {
           <Ionicons name="md-add" color={"white"} size={24} />
         </MainButton>
       </Card>
-      <View style={styles.listContainter}>
+      <View style={listContainerStyle}>
         <ScrollView contentContainerStyle={styles.list}>
           {round.map((num, idx) => renderdList(num, round.length - idx))}
         </ScrollView>
@@ -169,9 +169,9 @@ const styles = StyleSheet.create({
     marginTop: Dimensions.get("window").height > 600 ? 20 : 10,
     maxWidth: "90%",
   },
-  control: {
+  controls: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
     width: "80%",
   },
@@ -185,13 +185,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginVertical: 10,
   },
-  listContainter: {
-    flex: 1,
-    width: Dimensions.get("window").width > 350 ? "60%" : "80%",
+  listContainer: {
+    // flex: 1,
+    width: "60%",
   },
-  listContainterBig: {
-    flex: 1,
-    width: Dimensions.get("window").width > 350 ? "60%" : "80%",
+  listContainerBig: {
+    // flex: 1,
+    width: "80%",
   },
   list: {
     flexGrow: 1,
